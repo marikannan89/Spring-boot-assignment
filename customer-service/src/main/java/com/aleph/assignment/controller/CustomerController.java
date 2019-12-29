@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aleph.assignment.model.Customer;
-import com.aleph.assignment.persistance.entity.CusomerEntity;
+import com.aleph.assignment.persistance.entity.CustomerEntity;
 import com.aleph.assignment.service.CusomerService;
 
 @RestController
@@ -27,35 +27,35 @@ public class CustomerController {
 	
 	@GetMapping(path = "/customers")
     public ResponseEntity<?> getCustomer() {
-        Iterable<CusomerEntity> response = customerService.getCustomer();
-        return new ResponseEntity<Iterable<CusomerEntity>>(response, HttpStatus.OK);
+        List<CustomerEntity> response = customerService.getCustomer();
+        return new ResponseEntity<List<CustomerEntity>>(response, HttpStatus.OK);
     }
 	
 	@PostMapping("/customers")
     public ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer) {
-		CusomerEntity response = customerService.createCustomer(customer);
-        return new ResponseEntity<CusomerEntity>(response, HttpStatus.CREATED);
+		CustomerEntity response = customerService.createCustomer(customer);
+        return new ResponseEntity<CustomerEntity>(response, HttpStatus.CREATED);
     }
 	
 	@GetMapping("/customers/{fieldName}/{value}")
     public ResponseEntity<?> findCustomer(@PathVariable(value = "fieldName") String fieldName, @PathVariable(value = "value") String value) {
 		Object response = customerService.findCustomer(fieldName,value);
 		if(response instanceof List<?>) {
-			 return new ResponseEntity<List<CusomerEntity>>((List<CusomerEntity>) response, HttpStatus.OK);
+			 return new ResponseEntity<List<CustomerEntity>>((List<CustomerEntity>) response, HttpStatus.OK);
 		}
-        return new ResponseEntity<CusomerEntity>((CusomerEntity) response, HttpStatus.OK);
+        return new ResponseEntity<CustomerEntity>((CustomerEntity) response, HttpStatus.OK);
     }
 
     @PutMapping("/customers/{id}")
     public ResponseEntity<?> updateCustomer(@PathVariable(value = "id") String customerId, @Valid @RequestBody Customer customerDetails) {
-    	CusomerEntity response = customerService.updateCustomer(customerId,customerDetails);
-        return new ResponseEntity<CusomerEntity>(response, HttpStatus.OK);
+    	CustomerEntity response = customerService.updateCustomer(customerId,customerDetails);
+        return new ResponseEntity<CustomerEntity>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/customers/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable(value = "id") String customerId) {
-    	CusomerEntity response = customerService.deleteCustomer(customerId);
-        return new ResponseEntity<CusomerEntity>(response, HttpStatus.OK);
+    	CustomerEntity response = customerService.deleteCustomer(customerId);
+        return new ResponseEntity<CustomerEntity>(response, HttpStatus.OK);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.aleph.assignment.service.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.mapstruct.factory.Mappers;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.aleph.assignment.exception.ResourceNotFoundException;
 import com.aleph.assignment.model.Customer;
 import com.aleph.assignment.persistance.dao.CustomerRepository;
-import com.aleph.assignment.persistance.entity.CusomerEntity;
+import com.aleph.assignment.persistance.entity.CustomerEntity;
 import com.aleph.assignment.service.CusomerService;
 import com.aleph.assignment.util.CustomerObjectMapper;
 import com.aleph.assignment.util.EncryptionUtil;
@@ -27,12 +29,12 @@ public class CustomerServiceImpl implements CusomerService {
 	CustomerObjectMapper userObjectMapper = Mappers.getMapper(CustomerObjectMapper.class);
 	
 	@Override
-	public Iterable<CusomerEntity> getCustomer() {
+	public List<CustomerEntity> getCustomer() {
 		return userRepository.findAll(); 
 	}
 	
 	@Override
-	public CusomerEntity createCustomer(Customer customer) {
+	public CustomerEntity createCustomer(Customer customer) {
 		return userRepository.save(userObjectMapper.toUserEntity(customer)); 
 	}
 
@@ -50,16 +52,16 @@ public class CustomerServiceImpl implements CusomerService {
 	}
 
 	@Override
-	public CusomerEntity updateCustomer(String ic, Customer customerDetails) {
-		CusomerEntity customer = userRepository.findByIC(EncryptionUtil.encrypt(ic)).orElseThrow(() -> new ResourceNotFoundException("Customer", "ic", ic));
-		CusomerEntity customerRequest = userObjectMapper.toUserEntity(customerDetails);
+	public CustomerEntity updateCustomer(String ic, Customer customerDetails) {
+		CustomerEntity customer = userRepository.findByIC(EncryptionUtil.encrypt(ic)).orElseThrow(() -> new ResourceNotFoundException("Customer", "ic", ic));
+		CustomerEntity customerRequest = userObjectMapper.toUserEntity(customerDetails);
 		customerRequest.setCustomerId(customer.getCustomerId());
         return userRepository.save(customerRequest);
 	}
 
 	@Override
-	public CusomerEntity deleteCustomer(String ic) {
-		CusomerEntity customer = userRepository.findByIC(EncryptionUtil.encrypt(ic)).orElseThrow(() -> new ResourceNotFoundException("Customer", "ic", ic));
+	public CustomerEntity deleteCustomer(String ic) {
+		CustomerEntity customer = userRepository.findByIC(EncryptionUtil.encrypt(ic)).orElseThrow(() -> new ResourceNotFoundException("Customer", "ic", ic));
 		userRepository.delete(customer);
 		return customer;
 	}

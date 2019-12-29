@@ -1,18 +1,20 @@
 package com.aleph.assignment.service;
 
+import java.util.List;
+
 import com.aleph.assignment.model.Customer;
-import com.aleph.assignment.persistance.entity.CusomerEntity;
+import com.aleph.assignment.persistance.entity.CustomerEntity;
 
 public interface CusomerService {
 
-	Iterable<CusomerEntity> getCustomer();
+	List<CustomerEntity> getCustomer();
 	
-	CusomerEntity createCustomer(Customer customer);
+	CustomerEntity createCustomer(Customer customer);
 
 	Object findCustomer(String fieldName, String value);
 
-	CusomerEntity updateCustomer(String customerId, Customer customerDetails);
+	CustomerEntity updateCustomer(String customerId, Customer customerDetails);
 
-	CusomerEntity deleteCustomer(String customerId);
+	CustomerEntity deleteCustomer(String customerId);
 
 }
